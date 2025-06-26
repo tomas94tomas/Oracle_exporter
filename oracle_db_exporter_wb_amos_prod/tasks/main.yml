@@ -1,0 +1,26 @@
+---
+- name: Ensure /opt/oracledb_exporter directory exists
+  file:
+    path: /opt/oracledb_exporter
+    state: directory
+    mode: '0755'
+
+- name: Copy custom metrics file
+  copy:
+    src: files/custom-metrics.toml
+    dest: /opt/oracledb_exporter/custom-metrics.toml
+
+- name: Start oracle_db_exporter
+  docker_container:
+    name: oracle_db_exporter_wb_amos_prod
+    image: eams-repository.fltechnics.com/flt_oracle_db_exporter:latest
+    networks:
+      - name: fltechnics
+    published_ports:
+      - "9164:9161"
+    state: started
+    restart_policy: always
+    env:
+      DATA_SOURCE_NAME: "{{ oracledb_amos_prod_username }}/{{ oracledb_amos_prod_password }}@//{{ oracledb_amos_prod_ip}}/{{ oracledb_amos_prod_dbname}}"
+    volumes:
+      - /opt/oracledb_exporter/custom-metrics.toml:/custom-metrics.toml

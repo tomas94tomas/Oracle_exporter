@@ -1,0 +1,8 @@
+global:
+    scrape_timeout_offset: 500ms
+    min_interval: 15s
+    max_connections: 3
+    max_idle_connections: 3
+  
+target:
+  data_source_name: '{{ oracledb_dev_username }}/{{ oracledb_dev_password }}@//{{ oracledb_dev_ip}}/{{ oracledb_dev_dbname}}' #TODO: change to dev environment credentials

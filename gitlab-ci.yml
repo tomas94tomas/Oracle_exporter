@@ -1,0 +1,34 @@
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  image: python:latest
+  only:
+    - /^version.*$/
+  services:
+    - docker:dind
+  before_script:
+    - echo "$SSH_PRIVATE_KEY" > ssh_key
+    - chmod 400 ssh_key
+    - eval $(ssh-agent -s)
+    - ssh-add ssh_key
+    - rm ssh_key
+  script:
+    - apt-get update && apt-get install -y ansible
+    - pip install docker
+    - pip3 install docker
+    - export ANSIBLE_HOST_KEY_CHECKING=False
+    #- ansible-playbook -i hosts oracle_db_exporter_wb_amos_test.yml -u root --extra-vars "oracledb_amos_test_username=$oracledb_amos_test_username oracledb_amos_test_password=$oracledb_amos_test_password oracledb_amos_test_ip=$oracledb_amos_test_ip oracledb_amos_test_dbname=$oracledb_amos_test_dbname"
+    #- ansible-playbook -i hosts oracle_db_exporter_wb_amos_uat.yml -u root --extra-vars "oracledb_amos_uat_username=$oracledb_amos_uat_username oracledb_amos_uat_password=$oracledb_amos_uat_password oracledb_amos_uat_ip=$oracledb_amos_uat_ip oracledb_amos_uat_dbname=$oracledb_amos_uat_dbname"
+    #- ansible-playbook -i hosts oracle_db_exporter_wb_amos_prod.yml -u root --extra-vars "oracledb_amos_prod_username=$oracledb_amos_prod_username oracledb_amos_prod_password=$oracledb_amos_prod_password oracledb_amos_prod_ip=$oracledb_amos_prod_ip oracledb_amos_prod_dbname=$oracledb_amos_prod_dbname"
+    #- ansible-playbook -i hosts oracle_db_exporter_odbit.yml -u root --extra-vars "oracledb_odbit_username=$oracledb_odbit_username oracledb_odbit_password=$oracledb_odbit_password oracledb_odbit_ip=$oracledb_odbit_ip oracledb_odbit_dbname=$oracledb_odbit_dbname"
+    #- ansible-playbook -i hosts oracle_db_exporter_uat.yml -u root --extra-vars "oracledb_uat_username=$oracledb_uat_username oracledb_uat_password=$oracledb_uat_password oracledb_uat_ip=$oracledb_uat_ip oracledb_uat_dbname=$oracledb_uat_dbname"
+    #- ansible-playbook -i hosts oracle_db_exporter_dev.yml -u root --extra-vars "oracledb_dev_username=$oracledb_dev_username oracledb_dev_password=$oracledb_dev_password oracledb_dev_ip=$oracledb_dev_ip oracledb_dev_dbname=$oracledb_dev_dbname"
+    #- ansible-playbook -i hosts oracle_db_exporter.yml -u root --extra-vars "oracledb_live_username=$oracledb_live_username oracledb_live_password=$oracledb_live_password oracledb_live_ip=$oracledb_live_ip oracledb_live_dbname=$oracledb_live_dbname"
+    - ansible-playbook -i hosts oracle_db_exporter_odb_mro.yml -u root --extra-vars "oracledb_mro_username=$oracledb_mro_username oracledb_mro_password=$oracledb_mro_password oracledb_mro_ip=$oracledb_mro_ip oracledb_mro_dbname=$oracledb_mro_dbname"
+    #- ansible-playbook -i hosts oracle_db_exporter_odb_mro_dev.yml -u root --extra-vars "oracledb_mro_dev_username=$oracledb_mro_dev_username oracledb_mro_dev_password=$oracledb_mro_dev_password oracledb_mro_dev_ip=$oracledb_mro_dev_ip oracledb_mro_dev_dbname=$oracledb_mro_dev_dbname"
+    #- ansible-playbook -i hosts oracle_db_exporter_sensus_v2_uat.yml -u root --extra-vars "oracledb_sensus_v2_uat_username=$oracledb_sensus_v2_uat_username oracledb_sensus_v2_uat_password=$oracledb_sensus_v2_uat_password oracledb_sensus_v2_uat_ip=$oracledb_sensus_v2_uat_ip oracledb_sensus_v2_uat_dbname=$oracledb_sensus_v2_uat_dbname"
+    #- ansible-playbook -i hosts oracle_db_exporter_sensus_v2_live.yml -u root --extra-vars "oracledb_sensus_v2_live_username=$oracledb_sensus_v2_live_username oracledb_sensus_v2_live_password=$oracledb_sensus_v2_live_password oracledb_sensus_v2_live_ip=$oracledb_sensus_v2_live_ip oracledb_sensus_v2_live_dbname=$oracledb_sensus_v2_live_dbname"
+    #- ansible-playbook -i hosts oracle_db_exporter_sensus_v1_live.yml -u root --extra-vars "oracledb_sensus_v1_live_username=$oracledb_sensus_v1_live_username oracledb_sensus_v1_live_password=$oracledb_sensus_v1_live_password oracledb_sensus_v1_live_ip=$oracledb_sensus_v1_live_ip oracledb_sensus_v1_live_dbname=$oracledb_sensus_v1_live_dbname"
+    #test

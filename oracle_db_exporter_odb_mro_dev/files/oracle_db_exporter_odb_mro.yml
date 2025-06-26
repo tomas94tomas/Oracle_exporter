@@ -1,0 +1,8 @@
+global:
+    scrape_timeout_offset: 500ms
+    min_interval: 15s
+    max_connections: 3
+    max_idle_connections: 3
+  
+target:
+  data_source_name: '{{ oracledb_mro_dev_username }}/{{ oracledb_mro_dev_password }}@//{{ oracledb_mro_dev_ip}}/{{ oracledb_mro_dev_dbname}}'

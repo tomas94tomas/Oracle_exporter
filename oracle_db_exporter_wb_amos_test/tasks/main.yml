@@ -1,0 +1,13 @@
+---
+- name: Start oracle_db_exporter
+  docker_container:
+    name: oracle_db_exporter_wb_amos_test
+    image: eams-repository.fltechnics.com/flt_oracle_db_exporter:latest
+    networks:
+      - name: fltechnics
+    published_ports:
+      - "9162:9161"
+    state: started
+    restart_policy: always
+    env:
+      DATA_SOURCE_NAME: "{{ oracledb_amos_test_username }}/{{ oracledb_amos_test_password }}@//{{ oracledb_amos_test_ip}}/{{ oracledb_amos_test_dbname}}"

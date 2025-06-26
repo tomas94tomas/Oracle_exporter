@@ -1,0 +1,12 @@
+---
+- name: Start oracle_db_exporter_dev
+  docker_container:
+    name: oracle_db_exporter_dev
+    image: eams-repository.fltechnics.com/flt_oracle_db_exporter:latest
+    networks:
+      - name: fltechnics
+    published_ports:
+      - "9173:9161"
+    restart_policy: always
+    env:
+      DATA_SOURCE_NAME: '{{ oracledb_dev_username }}/{{ oracledb_dev_password }}@//{{ oracledb_dev_ip}}/{{ oracledb_dev_dbname}}' #TODO: change to dev environment credentials

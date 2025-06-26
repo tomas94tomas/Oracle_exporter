@@ -1,0 +1,6 @@
+[[metric]]
+context = "oracledb_db_flint"
+labels = ["oracledb_db_flint"]
+request = "SELECT CASE WHEN status = 'OPEN' THEN 1 ELSE 0 END as value FROM v$instance"
+metricsdesc = { value = "Database Flint state: 1 for OPEN, 0 for other states." }
+metricstype = { value = "gauge" }

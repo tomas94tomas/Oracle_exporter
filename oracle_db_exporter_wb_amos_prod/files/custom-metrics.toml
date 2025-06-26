@@ -1,0 +1,25 @@
+[[metric]]
+context = "pga_usage"
+metricsdesc = {total_pga_allocated = "Total PGA allocated in MB.", total_pga_used = "Total PGA used in MB."}
+request = """
+SELECT
+  ROUND((a.value / 1024 / 1024), 2) AS total_pga_used_mb,
+  ROUND((b.value / 1024 / 1024), 2) AS total_pga_allocated_mb
+FROM
+  v$pgastat a, v$pgastat b
+WHERE
+  a.name = 'total PGA in use'
+  AND b.name = 'total PGA allocated'
+"""
+
+[[metric]]
+context = "active_sessions"
+metricsdesc = {active_sessions = "The total number of active sessions."}
+request = """
+SELECT
+  COUNT(*) AS active_sessions
+FROM
+  v$session
+WHERE
+  status = 'ACTIVE'
+"""

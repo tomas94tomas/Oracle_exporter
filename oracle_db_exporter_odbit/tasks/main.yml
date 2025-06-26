@@ -1,0 +1,29 @@
+---
+
+- name: Create a sql_exporter configuration directory
+  file:
+    path: /etc/oracle_db_exporter_odbit/
+    state: directory
+    mode: '0755'
+    owner: "1001"
+    group: "1001"
+
+- name: Copy sql_exporter configuration
+  copy:
+    src: custom-metrics.toml
+    dest: /etc/oracle_db_exporter_odbit/custom-metrics.toml
+
+- name: Start oracle_db_exporter
+  docker_container:
+    name: oracle_db_exporter_odbit
+    image: eams-repository.fltechnics.com/flt_oracle_db_exporter:latest
+    networks:
+      - name: fltechnics
+    published_ports:
+      - "9161:9161"
+    state: started
+    restart: yes
+    volumes:
+      - /etc/oracle_db_exporter_odbit/custom-metrics.toml:/custom-metrics.toml:rw
+    env:
+      DATA_SOURCE_NAME: "{{ oracledb_odbit_username }}/{{ oracledb_odbit_password }}@//{{ oracledb_odbit_ip }}/{{ oracledb_odbit_dbname}}"

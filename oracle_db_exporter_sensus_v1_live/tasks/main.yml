@@ -1,0 +1,12 @@
+---
+- name: Start oracle_db_exporter_sensus_v1_live
+  docker_container:
+    name: oracle_db_exporter_sensus_v1_live
+    image: eams-repository.fltechnics.com/flt_oracle_db_exporter:latest
+    networks:
+      - name: fltechnics
+    published_ports:
+      - "9177:9161"
+    restart_policy: always
+    env:
+      DATA_SOURCE_NAME: '{{ oracledb_sensus_v1_live_username }}/{{ oracledb_sensus_v1_live_password }}@//{{ oracledb_sensus_v1_live_ip}}/{{ oracledb_sensus_v1_live_dbname}}'

@@ -1,0 +1,12 @@
+---
+- name: Start oracle_db_exporter_mro
+  docker_container:
+    name: oracle_db_exporter_mro
+    image: eams-repository.fltechnics.com/flt_oracle_db_exporter:latest
+    networks:
+      - name: fltechnics
+    published_ports:
+      - "9178:9161"
+    restart_policy: always
+    env:
+      DATA_SOURCE_NAME: '{{ oracledb_mro_username }}/{{ oracledb_mro_password }}@//{{ oracledb_mro_ip}}/{{ oracledb_mro_dbname}}'
