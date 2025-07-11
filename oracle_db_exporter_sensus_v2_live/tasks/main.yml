@@ -8,5 +8,9 @@
     published_ports:
       - "9175:9161"
     restart_policy: always
+    recreate: yes
+    force_kill: yes
     env:
       DATA_SOURCE_NAME: '{{ oracledb_sensus_v2_live_username }}/{{ oracledb_sensus_v2_live_password }}@//{{ oracledb_sensus_v2_live_ip}}/{{ oracledb_sensus_v2_live_dbname}}'
+    volumes:
+      - "{{ playbook_dir }}/oracle_db_exporter_sensus_v2_live/files/custom-metrics.toml:/etc/oracledb_exporter/custom-metrics.toml"
