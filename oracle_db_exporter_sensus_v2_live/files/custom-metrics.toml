@@ -1,0 +1,6 @@
+[[metric]]
+context = "recovery_file_usage"
+metricsdesc = {
+  USED_PCT = "Percentage of recovery file area used"
+}
+request = "SELECT ROUND(SPACE_USED*100/SPACE_LIMIT, 2) AS USED_PCT FROM V$RECOVERY_FILE_DEST"
